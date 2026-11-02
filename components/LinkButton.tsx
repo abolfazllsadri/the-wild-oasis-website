@@ -19,7 +19,7 @@ type BaseButtonProps = BaseProps &
 type LinkButtonProps = BaseLinkProps | BaseButtonProps;
 
 const initClasses =
-  "inline-block rounded-xl bg-accent-500 text-primary-800 transition-all hover:scale-[1.01] active:scale-100 disabled:hover:scale-100 disabled:active:scale-100";
+  "inline-block rounded-xl bg-accent-500 text-center text-primary-800 transition-all hover:scale-[1.01] active:scale-100 disabled:hover:scale-100 disabled:active:scale-100";
 
 export default function LinkButton(props: LinkButtonProps) {
   if (typeof props.href === "string") {
@@ -35,7 +35,11 @@ export default function LinkButton(props: LinkButtonProps) {
   const { href: _href, children, className, ...buttonProps } = props;
 
   return (
-    <button className={cn(initClasses, className)} {...buttonProps}>
+    <button
+      type="button"
+      className={cn(initClasses, className)}
+      {...buttonProps}
+    >
       {children}
     </button>
   );

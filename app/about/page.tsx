@@ -1,27 +1,28 @@
 import Image from "next/image";
 import image1 from "@/public/about-1.jpg";
 import image2 from "@/public/about-2.jpg";
-import type { Metadata } from "next";
 import LinkButton from "@/components/LinkButton";
 import { getCabins } from "@/lib/data-service";
 
 export const revalidate = 86400; // revalidate data per 1 day
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "About",
+  description:
+    "A family-run mountain retreat since 1962. Learn the story behind The Wild Oasis.",
 };
 
 export default async function Page() {
   const cabins = await getCabins();
 
   return (
-    <div className="grid grid-cols-5 items-center gap-x-24 gap-y-32 text-lg">
-      <div className="col-span-3">
-        <h1 className="mb-10 text-4xl font-semibold tracking-wider text-accent-400">
+    <div className="grid grid-cols-1 items-center gap-x-24 gap-y-12 text-base sm:text-lg lg:grid-cols-5 lg:gap-y-32">
+      <div className="lg:col-span-3">
+        <h1 className="mb-6 text-3xl font-semibold tracking-wider text-accent-400 sm:mb-10 sm:text-4xl">
           Welcome to The Wild Oasis
         </h1>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <p>
             Where nature&apos;s beauty and comfortable living blend seamlessly.
             Hidden away in the heart of the Italian Dolomites, this is your
@@ -46,33 +47,35 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="col-span-2">
+      <div className="lg:col-span-2">
         <Image
           src={image1}
           placeholder="blur"
+          sizes="(min-width: 1024px) 40vw, 100vw"
           className="rounded-lg object-cover"
           alt="Family sitting around a fire pit in front of cabin"
           quality={80}
         />
       </div>
 
-      <div className="relative col-span-2 aspect-square">
+      <div className="relative aspect-[4/3] lg:col-span-2 lg:aspect-square">
         <Image
           src={image2}
           fill
           placeholder="blur"
+          sizes="(min-width: 1024px) 40vw, 100vw"
           className="rounded-lg object-cover"
           alt="Family that manages The Wild Oasis"
           quality={80}
         />
       </div>
 
-      <div className="col-span-3">
-        <h1 className="mb-10 text-4xl font-semibold tracking-wider text-accent-400">
+      <div className="lg:col-span-3">
+        <h2 className="mb-6 text-3xl font-semibold tracking-wider text-accent-400 sm:mb-10 sm:text-4xl">
           Managed by our family since 1962
-        </h1>
+        </h2>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <p>
             Since 1962, The Wild Oasis has been a cherished family-run retreat.
             Started by our grandparents, this haven has been nurtured with love

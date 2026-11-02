@@ -10,16 +10,21 @@ export default function ReservationReminder() {
   if (!range?.from || !range?.to) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-8 rounded-full bg-accent-500 px-8 py-4 text-base font-semibold leading-snug text-primary-800 shadow-xl shadow-slate-900">
+    <div
+      role="status"
+      className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-md -translate-x-1/2 items-center justify-between gap-4 rounded-2xl bg-accent-500 px-5 py-3 text-sm font-semibold leading-snug text-primary-900 shadow-xl shadow-black/40 sm:w-auto sm:max-w-none sm:rounded-full sm:px-8 sm:py-4 sm:text-base"
+    >
       <p>
-        Don&apos;t forget to reserve your dates <br /> from{" "}
-        <strong>{format(new Date(range?.from), "MMM dd yyyy")}</strong> to{" "}
-        <strong>{format(new Date(range?.to), "MMM dd yyyy")}</strong>
+        Don&apos;t forget to reserve your dates from{" "}
+        <strong>{format(range.from, "MMM dd yyyy")}</strong> to{" "}
+        <strong>{format(range.to, "MMM dd yyyy")}</strong>
       </p>
 
       <button
+        type="button"
         onClick={resetRange}
-        className="rounded-full p-1 transition-all hover:bg-accent-600"
+        aria-label="Clear selected dates"
+        className="shrink-0 rounded-full p-1 transition-colors hover:bg-accent-600"
       >
         <XMarkIcon className="h-6 w-6" />
       </button>

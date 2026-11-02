@@ -1,13 +1,20 @@
 import Logo from "@/components/Logo";
 import SignInButton from "@/components/SignInButton";
+import { signInAction } from "@/lib/actions";
 import { auth } from "@/lib/auth";
+import { getSafePath } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export const metadata = { title: "Sign in" };
+type PageProps = {
+  searchParams: { next?: string };
+};
 
-export default async function Page() {
+export const metadata = { title: "Sign in", robots: { index: false } };
+
+export default async function Page({ searchParams }: PageProps) {
+  const redirectTo = getSafePath(searchParams.next);
   const session = await auth();
-  if (session?.user) redirect("/account");
+  if (session?.user) redirect(redirectTo);
 
   return (
     <div className="flex items-center justify-center py-8 sm:py-20">
@@ -24,7 +31,9 @@ export default async function Page() {
           Manage your reservations and update your profile.
         </p>
 
-        <SignInButton />
+        <form action={signInAction.bind(null, redirectTo)}>
+          <SignInButton />
+        </form>
       </div>
     </div>
   );

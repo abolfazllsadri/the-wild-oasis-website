@@ -1,5 +1,4 @@
-import { getCountries } from "@/lib/data-service";
-import type { Country } from "@/lib/types";
+import { countryList, getCountryByName } from "@/lib/countries";
 
 type SelectCountryProps = {
   id: string;
@@ -8,36 +7,26 @@ type SelectCountryProps = {
   defaultCountry: string;
 };
 
-export default async function SelectCountry({
+export default function SelectCountry({
   id,
   name,
   className,
   defaultCountry,
 }: SelectCountryProps) {
-  const {
-    data: { objects: countries },
-  } = await getCountries();
-
-  const flag =
-    countries.find(
-      (country: Country) => country.names.common === defaultCountry,
-    )?.flag.url_png ?? "";
+  const defaultCode = getCountryByName(defaultCountry)?.code ?? "";
 
   return (
     <select
       id={id}
       name={name}
-      defaultValue={`${defaultCountry}%${flag}`}
+      defaultValue={defaultCode}
       className={className}
     >
       <option value="">Select country...</option>
 
-      {countries.map((country: Country) => (
-        <option
-          key={country.names.common}
-          value={`${country.names.common}%${country.flag.url_png}`}
-        >
-          {country.names.common}
+      {countryList.map((country) => (
+        <option key={country.code} value={country.code}>
+          {country.name}
         </option>
       ))}
     </select>

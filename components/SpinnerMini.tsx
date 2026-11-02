@@ -1,3 +1,3 @@
 export default function SpinnerMini() {
-  return <div className="spinner-mini"></div>;
+  return <div role="status" aria-label="Loading" className="spinner-mini" />;
 }
