@@ -85,13 +85,7 @@ export default function ReservationForm({
             How many guests?
           </label>
 
-          <select
-            size={5}
-            id="numGuests"
-            name="numGuests"
-            className="field"
-            required
-          >
+          <select id="numGuests" name="numGuests" className="field" required>
             <option value="" key="">
               Select number of guests...
             </option>

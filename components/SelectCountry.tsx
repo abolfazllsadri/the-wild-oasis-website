@@ -22,7 +22,9 @@ export default function SelectCountry({
       defaultValue={defaultCode}
       className={className}
     >
-      <option value="">Select country...</option>
+      <option value="" key="">
+        Select country...
+      </option>
 
       {countryList.map((country) => (
         <option key={country.code} value={country.code}>

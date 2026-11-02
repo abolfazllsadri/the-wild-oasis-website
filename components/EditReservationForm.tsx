@@ -49,7 +49,6 @@ export default function EditReservationForm({
           name="numGuests"
           defaultValue={numGuests}
           className="field"
-          size={5}
         >
           <option value="" key="">
             Select number of guests...

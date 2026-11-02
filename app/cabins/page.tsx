@@ -54,7 +54,7 @@ function Loading() {
       {Array.from({ length: 4 }, (_, i) => (
         <div
           key={i}
-          className="h-64 animate-pulse rounded-lg border border-primary-800 bg-primary-900/50"
+          className="h-52 animate-pulse rounded-lg border border-primary-800 bg-primary-900/50"
         />
       ))}
     </div>
