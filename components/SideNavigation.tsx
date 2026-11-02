@@ -5,7 +5,6 @@ import {
   HomeIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
-import type { ReactNode } from "react";
 import SignOutButton from "./SignOutButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,7 +13,7 @@ import { cn } from "@/lib/utils";
 type NavLink = {
   name: string;
   href: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
 };
 
 const navLinks: NavLink[] = [
@@ -41,9 +40,9 @@ export default function SideNavigation() {
   return (
     <nav
       aria-label="Account"
-      className="md:border-r md:border-primary-900 md:pr-3"
+      className="min-w-0 md:border-r md:border-primary-900 md:pr-3"
     >
-      <ul className="flex gap-2 overflow-x-auto py-1 text-base [scrollbar-width:none] md:h-full md:flex-col md:overflow-visible md:py-0 md:text-lg [&::-webkit-scrollbar]:hidden">
+      <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 text-base [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:h-full md:flex-col md:overflow-visible md:px-0 md:py-0 md:text-lg [&::-webkit-scrollbar]:hidden">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
 

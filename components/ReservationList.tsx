@@ -1,15 +1,16 @@
 "use client";
 
-import { useOptimistic } from "react";
+import { startTransition, useOptimistic } from "react";
 import ReservationCard from "@/components/ReservationCard";
 import type { ReservationCardBooking } from "@/lib/types";
 import { deleteReservation } from "@/lib/actions";
+import { toast } from "sonner";
 
-export default function ReservationList({
-  bookings,
-}: {
+type ReservationListProps = {
   bookings: ReservationCardBooking[];
-}) {
+};
+
+export default function ReservationList({ bookings }: ReservationListProps) {
   const [optimisticBookings, optimisticDelete] = useOptimistic<
     ReservationCardBooking[],
     number
@@ -17,9 +18,15 @@ export default function ReservationList({
     curBookings.filter((booking) => booking.id !== bookingId),
   );
 
-  async function handleDelete(bookingId: number) {
-    optimisticDelete(bookingId);
-    await deleteReservation(bookingId);
+  function handleDelete(bookingId: number) {
+    startTransition(async () => {
+      optimisticDelete(bookingId);
+
+      const { error } = await deleteReservation(bookingId);
+
+      if (error) toast.error(error);
+      else toast.success("Reservation deleted");
+    });
   }
 
   if (!bookings) return null;

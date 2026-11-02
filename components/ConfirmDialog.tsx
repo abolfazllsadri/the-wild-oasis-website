@@ -14,13 +14,13 @@ const tones: TonesType = {
   warning: {
     iconWrap: "bg-accent-600/15 text-accent-500 ring-accent-500/5",
     button:
-      "bg-accent-600 text-slate-950 shadow-accent-500/20 hover:bg-accent-500 focus-visible:outline-accent-300",
+      "bg-accent-600 text-slate-950 shadow-accent-500/20 hover:bg-accent-500 focus-visible:outline-accent-300 disabled:hover:bg-accent-500",
     spinner: "border-slate-950/30 border-t-slate-950",
   },
   danger: {
     iconWrap: "bg-red-500/15 text-red-400 ring-red-500/5",
     button:
-      "bg-red-600 text-white shadow-red-600/20 hover:bg-red-500 focus-visible:outline-red-400",
+      "bg-red-600 text-white shadow-red-600/20 hover:bg-red-500 focus-visible:outline-red-400 disabled:hover:bg-red-500",
     spinner: "border-white/30 border-t-white",
   },
 };

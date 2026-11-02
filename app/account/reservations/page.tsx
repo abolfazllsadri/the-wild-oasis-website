@@ -1,3 +1,4 @@
+import PaymentToast from "@/components/PaymentToast";
 import ReservationList from "@/components/ReservationList";
 import { auth } from "@/lib/auth";
 import { getBookings } from "@/lib/data-service";
@@ -5,19 +6,29 @@ import { getBookings } from "@/lib/data-service";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Reservations",
+type PageProps = {
+  searchParams: {
+    payment?: string;
+    session_id?: string;
+  };
 };
+
+export const metadata: Metadata = { title: "Reservations" };
 
 // export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
-export default async function Page() {
+export default async function Page({ searchParams }: PageProps) {
   const session = await auth();
   const bookings = await getBookings(session?.user?.guestId as number);
 
   return (
     <div>
+      <PaymentToast
+        status={searchParams.payment}
+        sessionId={searchParams.session_id}
+      />
+
       <h2 className="mb-7 text-2xl font-semibold tracking-wider text-accent-400 sm:text-3xl">
         Your reservations
       </h2>

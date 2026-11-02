@@ -1,94 +1,54 @@
-import SubmitButton from "@/components/SubmitButton";
-import { updateReservation } from "@/lib/actions";
-import { getBooking, getCabin } from "@/lib/data-service";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getBooking, getCabin } from "@/lib/data-service";
+import { auth } from "@/lib/auth";
+import { format, isPast } from "date-fns";
+import EditReservationForm from "@/components/EditReservationForm";
 
 type PageProps = {
   params: { bookingId: string };
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { bookingId } = params;
-  const booking = await getBooking(bookingId);
-
-  if (!booking?.id)
-    return {
-      title: "Reservation not found",
-    };
-
+export function generateMetadata({ params }: PageProps): Metadata {
   return {
-    title: `Reservation ${booking.id}`,
+    title: `Edit reservation #${params.bookingId}`,
   };
 }
 
 export default async function Page({ params }: PageProps) {
   const { bookingId } = params;
-  const booking = await getBooking(bookingId);
+  const [session, booking] = await Promise.all([auth(), getBooking(bookingId)]);
 
-  if (!booking) notFound();
+  if (!booking || Number(booking.guestId) !== Number(session?.user?.guestId))
+    notFound();
 
-  const { numGuests, observations, cabinId } = booking;
+  const { numGuests, observations, cabinId, startDate, endDate, numNights } =
+    booking;
+
+  if (isPast(new Date(startDate))) redirect("/account/reservations");
+
   const cabin = await getCabin(String(cabinId));
-
   if (!cabin) notFound();
-
-  const { maxCapacity } = cabin;
 
   return (
     <div>
-      <h2 className="mb-7 text-3xl font-semibold tracking-wider text-accent-400">
+      <h2 className="mb-2 text-2xl font-semibold tracking-wider text-accent-400 sm:text-3xl">
         Edit Reservation #{bookingId}
       </h2>
 
-      <form
-        action={updateReservation}
-        className="flex flex-col gap-6 rounded-lg border border-primary-800/50 bg-primary-900 px-12 py-8 text-lg"
-      >
-        <input type="hidden" name="bookingId" value={bookingId} />
+      <p className="mb-7 text-primary-300">
+        Cabin {cabin.name} &middot;{" "}
+        {format(new Date(startDate), "MMM dd, yyyy")} &ndash;{" "}
+        {format(new Date(endDate), "MMM dd, yyyy")} ({numNights} night
+        {numNights === 1 ? "" : "s"})
+      </p>
 
-        <div className="space-y-2">
-          <label htmlFor="numGuests">How many guests?</label>
-
-          <select
-            required
-            defaultValue={numGuests}
-            id="numGuests"
-            name="numGuests"
-            className="w-full rounded-md bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
-          >
-            <option value="" key="">
-              Select number of guests...
-            </option>
-
-            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
-              <option value={x} key={x}>
-                {x} {x === 1 ? "guest" : "guests"}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="observations">
-            Anything we should know about your stay?
-          </label>
-
-          <textarea
-            id="observations"
-            defaultValue={observations}
-            name="observations"
-            maxLength={500}
-            className="w-full rounded-md bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
-          />
-        </div>
-
-        <div className="flex items-center justify-end gap-6">
-          <SubmitButton>Update reservation</SubmitButton>
-        </div>
-      </form>
+      <EditReservationForm
+        bookingId={Number(bookingId)}
+        numGuests={numGuests}
+        observations={observations}
+        maxCapacity={cabin.maxCapacity}
+      />
     </div>
   );
 }
