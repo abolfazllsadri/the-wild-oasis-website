@@ -1,15 +1,12 @@
 import CabinCard from "@/components/CabinCard";
 import { getCabins } from "@/lib/data-service";
 import type { Cabin, CapacityFilter } from "@/lib/types";
-// import { unstable_noStore as noStore } from "next/cache";
 
 type CabinListProps = {
   filter: CapacityFilter;
 };
 
 export default async function CabinList({ filter }: CabinListProps) {
-  // noStore();
-
   const cabins = await getCabins();
 
   let filteredCabins!: Cabin[];

@@ -44,6 +44,28 @@ type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
 
+const toasterStyles = {
+  "--normal-bg": "#1B2631",
+  "--normal-border": "#2C3D4F",
+  "--normal-text": "#D4DEE7",
+
+  "--success-bg": "#10261b",
+  "--success-border": "#166534",
+  "--success-text": "#86efac",
+
+  "--error-bg": "#2b1316",
+  "--error-border": "#991b1b",
+  "--error-text": "#fca5a5",
+
+  "--warning-bg": "#2b2110",
+  "--warning-border": "#a16207",
+  "--warning-text": "#fde047",
+
+  "--info-bg": "#102233",
+  "--info-border": "#1d4e89",
+  "--info-text": "#93c5fd",
+} as React.CSSProperties;
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
@@ -66,30 +88,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
           theme="dark"
           position="bottom-left"
           richColors
-          closeButton
-          style={
-            {
-              "--normal-bg": "#1B2631",
-              "--normal-border": "#2C3D4F",
-              "--normal-text": "#D4DEE7",
-
-              "--success-bg": "#10261b",
-              "--success-border": "#166534",
-              "--success-text": "#86efac",
-
-              "--error-bg": "#2b1316",
-              "--error-border": "#991b1b",
-              "--error-text": "#fca5a5",
-
-              "--warning-bg": "#2b2110",
-              "--warning-border": "#a16207",
-              "--warning-text": "#fde047",
-
-              "--info-bg": "#102233",
-              "--info-border": "#1d4e89",
-              "--info-text": "#93c5fd",
-            } as React.CSSProperties
-          }
+          style={toasterStyles}
+          toastOptions={{
+            classNames: {
+              toast: "w-[356px] rounded-xl px-4 py-3.5",
+              title: "text-sm font-semibold text-primary-100",
+              description: "text-xs text-primary-500",
+            },
+          }}
         />
       </body>
     </html>
