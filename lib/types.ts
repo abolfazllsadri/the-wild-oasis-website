@@ -1,7 +1,5 @@
 /**
- * Shared domain types for The Wild Oasis website.
- *
- * These mirror the shapes used by the (currently uninitialised) Supabase
+ * Shared domain types for The Wild Oasis (mirror the Supabase tables).
  * backend and are referenced by the components and the data-service layer.
  */
 
@@ -50,6 +48,7 @@ export type ReservationCardBooking = Pick<
   | "totalPrice"
   | "numGuests"
   | "created_at"
+  | "isPaid"
 > & {
   cabins: {
     name: string;
@@ -76,15 +75,6 @@ export type Settings = {
   breakfastPrice: number;
 };
 
-export type Country = {
-  names: { common: string };
-  flag: { url_png: string };
-};
-
-export type CountriesResponse = {
-  data: {
-    objects: Country[];
-  };
-};
-
 export type CapacityFilter = "all" | "small" | "medium" | "large";
+
+export type ActionResult = { error?: string };

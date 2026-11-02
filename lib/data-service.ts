@@ -1,16 +1,15 @@
-import { eachDayOfInterval } from "date-fns";
 import type {
   Booking,
   Cabin,
   CabinPrice,
-  CountriesResponse,
   Guest,
   ReservationCardBooking,
   Settings,
 } from "@/lib/types";
 import supabase from "@/lib/supabase";
+import { DAY_MS, roundToUTCDay } from "@/lib/utils";
 
-// GET
+/* ---------- GET ---------- */
 export async function getCabin(id: string): Promise<Cabin | null> {
   const { data, error } = await supabase
     .from("cabins")
@@ -57,7 +56,6 @@ export async function getGuest(email: string): Promise<Guest | null> {
     .eq("email", email)
     .single();
 
-  // No error here! We handle the possibility of no guest in the sign in callback
   return data;
 }
 
@@ -79,7 +77,7 @@ export async function getBookings(
   const { data, error, count } = await supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)",
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, isPaid, cabins(name, image)",
     )
     .eq("guestId", guestId)
     .order("startDate")
@@ -100,27 +98,29 @@ export async function getBookedDatesByCabinId(
   today.setUTCHours(0, 0, 0, 0);
   const todayISO = today.toISOString();
 
-  // Getting all bookings
   const { data, error } = await supabase
     .from("bookings")
-    .select("*")
+    .select("startDate, endDate")
     .eq("cabinId", cabinId)
-    .or(`startDate.gte.${todayISO},status.eq.checked-in`);
+    .gte("endDate", todayISO);
 
   if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
 
-  // Converting to actual dates to be displayed in the date picker
-  const bookedDates = data
-    .map((booking: Booking) => {
-      return eachDayOfInterval({
-        start: new Date(booking.startDate),
-        end: new Date(booking.endDate),
-      });
-    })
-    .flat();
+  const bookedDates = data.flatMap(
+    (booking: Pick<Booking, "startDate" | "endDate">) => {
+      const first = roundToUTCDay(booking.startDate).getTime();
+      const last = roundToUTCDay(booking.endDate).getTime();
+      const days = Math.round((last - first) / DAY_MS) + 1;
+
+      return Array.from(
+        { length: days },
+        (_, i) => new Date(first + i * DAY_MS),
+      );
+    },
+  );
 
   return bookedDates;
 }
@@ -136,28 +136,7 @@ export async function getSettings(): Promise<Settings> {
   return data;
 }
 
-export async function getCountries(limit = 100): Promise<CountriesResponse> {
-  try {
-    const res = await fetch(
-      `https://api.restcountries.com/countries/v5${limit ? `?limit=${limit}` : ""}`,
-      {
-        headers: { Authorization: `Bearer ${process.env.COUNTRIES_API_KEY!}` },
-      },
-    );
-
-    const countries = await res.json();
-
-    if (!res.ok) throw new Error(`HTTP ${res.status} in fetch countries`);
-
-    return countries;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Could not fetch countries");
-  }
-}
-
-/////////////
-// CREATE
+/* ---------- CREATE ---------- */
 export async function createGuest(newGuest: Guest) {
   const { data, error } = await supabase.from("guests").insert([newGuest]);
 
@@ -184,9 +163,7 @@ export async function createBooking(newBooking: Booking) {
   return data;
 }
 
-/////////////
-// UPDATE
-// The updatedFields is an object which should ONLY contain the updated data
+/* ---------- UPDATE ---------- */
 export async function updateGuest(id: number, updatedFields: Partial<Guest>) {
   const { data, error } = await supabase
     .from("guests")
@@ -222,8 +199,7 @@ export async function updateBooking(
   return data;
 }
 
-/////////////
-// DELETE
+/* ---------- DELETE ---------- */
 export async function deleteBooking(id: number) {
   const { data, error } = await supabase.from("bookings").delete().eq("id", id);
 
