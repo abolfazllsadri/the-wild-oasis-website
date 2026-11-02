@@ -2,8 +2,10 @@
 
 import { useReservation } from "@/components/ReservationContext";
 import type { Cabin, Settings } from "@/lib/types";
+import { fromUTCDate } from "@/lib/utils";
 import {
   differenceInDays,
+  format,
   isPast,
   isSameDay,
   isWithinInterval,
@@ -35,17 +37,19 @@ export default function DateSelector({
   bookedDates,
   cabin,
 }: DateSelectorProps) {
-  const { range, setRange, resetRange } = useReservation();
   const { regularPrice, discount } = cabin;
+  const { range, setRange, resetRange } = useReservation();
 
-  const displayRange = isAlreadyBooked(range, bookedDates)
+  const bookedDays = bookedDates.map(fromUTCDate);
+
+  const displayRange = isAlreadyBooked(range, bookedDays)
     ? { to: undefined, from: undefined }
     : range;
 
-  const numNights = differenceInDays(
-    displayRange?.to ?? "",
-    displayRange?.from ?? "",
-  );
+  const numNights =
+    displayRange?.from && displayRange?.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
 
   const cabinPrice = numNights * (regularPrice - discount);
 
@@ -65,10 +69,9 @@ export default function DateSelector({
         toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
-        className="place-self-center pt-12"
+        className="self-center pt-6 sm:pt-12"
         disabled={(curDate) =>
-          isPast(curDate) ||
-          bookedDates.some((date) => isSameDay(date, curDate))
+          isPast(curDate) || bookedDays.some((date) => isSameDay(date, curDate))
         }
       />
 
@@ -84,11 +87,7 @@ export default function DateSelector({
               <div className="text-center">
                 <p className="mb-1 text-sm text-slate-400">Check-in</p>
                 <p className="font-semibold text-slate-100">
-                  {displayRange.from.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {format(displayRange.from, "MMM dd, yyyy")}
                 </p>
               </div>
 
@@ -96,11 +95,7 @@ export default function DateSelector({
                 <p className="mb-1 text-sm text-slate-400">Check-out</p>
                 <p className="font-semibold text-slate-100">
                   {displayRange.to
-                    ? displayRange.to.toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })
+                    ? format(displayRange.to, "MMM dd, yyyy")
                     : "Select date"}
                 </p>
               </div>
@@ -123,8 +118,8 @@ export default function DateSelector({
         </div>
       </div>
 
-      <div className="mt-auto flex h-[72px] shrink-0 items-center justify-between bg-accent-500 px-8 text-primary-800">
-        <div className="flex items-baseline gap-6">
+      <div className="mt-auto flex min-h-[72px] shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-2 bg-accent-500 px-4 py-3 text-primary-800 sm:px-8">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 sm:gap-x-6">
           <p className="flex items-baseline gap-2">
             {discount > 0 ? (
               <>
@@ -160,6 +155,7 @@ export default function DateSelector({
 
         {range?.from || range?.to ? (
           <button
+            type="button"
             onClick={resetRange}
             className="rounded-lg border border-primary-800 px-4 py-2 text-sm font-semibold"
           >

@@ -1,7 +1,6 @@
 import CabinList from "@/components/CabinList";
 import Filter from "@/components/Filter";
 import ReservationReminder from "@/components/ReservationReminder";
-import Spinner from "@/components/Spinner";
 import { CapacityFilter } from "@/lib/types";
 import type { Metadata } from "next";
 import { Suspense } from "react";
@@ -10,6 +9,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Cabins",
+  description:
+    "Browse our luxury cabins in the Italian Dolomites. Filter by capacity, compare prices and reserve your stay.",
 };
 
 type PageProps = {
@@ -25,7 +26,7 @@ export default function Page({ searchParams }: PageProps) {
         Our Luxury Cabins
       </h1>
 
-      <p className="mb-10 text-lg text-primary-200">
+      <p className="mb-10 max-w-3xl text-lg text-primary-200">
         Cozy yet luxurious cabins, located right in the heart of the Italian
         Dolomites. Imagine waking up to beautiful mountain views, spending your
         days exploring the dark forests around, or just relaxing in your private
@@ -38,10 +39,24 @@ export default function Page({ searchParams }: PageProps) {
         <Filter />
       </div>
 
-      <Suspense fallback={<Spinner />} key={filter}>
+      <Suspense fallback={<Loading />} key={filter}>
         <CabinList filter={filter} />
-        <ReservationReminder />
       </Suspense>
+
+      <ReservationReminder />
+    </div>
+  );
+}
+
+function Loading() {
+  return (
+    <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 xl:gap-14">
+      {Array.from({ length: 4 }, (_, i) => (
+        <div
+          key={i}
+          className="h-64 animate-pulse rounded-lg border border-primary-800 bg-primary-900/50"
+        />
+      ))}
     </div>
   );
 }

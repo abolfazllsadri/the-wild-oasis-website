@@ -23,6 +23,8 @@ export async function generateMetadata({
 
   return {
     title: `Cabin ${cabin.name}`,
+    description: `Cabin ${cabin.name} sleeps up to ${cabin.maxCapacity} guests, from $${cabin.regularPrice - cabin.discount} per night, in the Italian Dolomites.`,
+    openGraph: { images: [cabin.image] },
   };
 }
 
@@ -43,12 +45,12 @@ export default async function Page({ params }: PageProps) {
   if (!cabin) notFound();
 
   return (
-    <div className="mx-auto mt-8 max-w-6xl">
+    <div className="mx-auto max-w-6xl sm:mt-8">
       <Cabin cabin={cabin} />
 
       <div>
-        <h2 className="mb-10 text-center text-4xl font-semibold text-accent-400">
-          Reserve {cabin.name} today. Pay on arrival.
+        <h2 className="mb-6 text-balance text-center text-2xl font-semibold text-accent-400 sm:mb-10 sm:text-3xl lg:text-4xl">
+          Reserve {cabin.name} today. Pay online or on arrival.
         </h2>
 
         <Suspense fallback={<Spinner />}>

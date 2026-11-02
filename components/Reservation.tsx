@@ -18,7 +18,7 @@ export default async function Reservation({ cabin }: ReservationProps) {
   const session = await auth();
 
   return (
-    <div className="grid min-h-[400px] grid-cols-2 items-stretch divide-x-2 divide-primary-700 overflow-hidden rounded-lg border border-primary-800">
+    <div className="grid min-h-[400px] grid-cols-1 divide-y-2 divide-primary-700 overflow-hidden rounded-lg border border-primary-800 lg:grid-cols-2 lg:divide-x-2 lg:divide-y-0">
       <DateSelector
         cabin={cabin}
         settings={settings}
@@ -26,9 +26,13 @@ export default async function Reservation({ cabin }: ReservationProps) {
       />
 
       {session?.user ? (
-        <ReservationForm cabin={cabin} user={session.user} />
+        <ReservationForm
+          cabin={cabin}
+          user={session.user}
+          breakfastPrice={settings.breakfastPrice}
+        />
       ) : (
-        <LoginMessage />
+        <LoginMessage cabinId={cabin.id} />
       )}
     </div>
   );

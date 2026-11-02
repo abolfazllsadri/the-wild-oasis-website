@@ -4,22 +4,23 @@ import Image from "next/image";
 import type { Cabin } from "@/lib/types";
 
 export default function Cabin({ cabin }: { cabin: Cabin }) {
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    cabin;
+  const { name, maxCapacity, image, description } = cabin;
 
   return (
-    <div className="mb-24 grid grid-cols-[3fr_4fr] gap-20 rounded-lg border border-primary-800 px-10 py-3">
-      <div className="relative -translate-x-3 scale-[1.15]">
+    <div className="mb-12 grid grid-cols-1 gap-6 rounded-xl border border-primary-800 p-4 sm:p-6 lg:mb-24 lg:grid-cols-[3fr_4fr] lg:gap-12 lg:p-8">
+      <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[22rem]">
         <Image
           fill
+          priority
           src={image}
+          sizes="(min-width: 1024px) 40vw, 100vw"
           className="select-none rounded-xl object-cover"
           alt={`Cabin ${name}`}
         />
       </div>
 
       <div>
-        <h3 className="mb-5 w-[150%] translate-x-[-254px] select-none rounded-lg bg-primary-950 px-6 py-4 text-7xl font-black text-accent-100">
+        <h3 className="mb-5 select-none text-4xl font-black text-accent-100 sm:text-5xl lg:text-6xl">
           Cabin {name}
         </h3>
 
@@ -31,14 +32,14 @@ export default function Cabin({ cabin }: { cabin: Cabin }) {
 
         <ul className="mb-7 flex flex-col gap-4">
           <li className="flex items-center gap-3">
-            <UsersIcon className="h-5 w-5 text-primary-600" />
+            <UsersIcon className="h-5 w-5 shrink-0 text-primary-600" />
             <span className="text-lg">
               For up to <span className="font-bold">{maxCapacity}</span> guests
             </span>
           </li>
 
           <li className="flex items-center gap-3">
-            <MapPinIcon className="h-5 w-5 text-primary-600" />
+            <MapPinIcon className="h-5 w-5 shrink-0 text-primary-600" />
             <span className="text-lg">
               Located in the heart of the{" "}
               <span className="font-bold">Dolomites</span> (Italy)
@@ -46,7 +47,7 @@ export default function Cabin({ cabin }: { cabin: Cabin }) {
           </li>
 
           <li className="flex items-center gap-3">
-            <EyeSlashIcon className="h-5 w-5 text-primary-600" />
+            <EyeSlashIcon className="h-5 w-5 shrink-0 text-primary-600" />
             <span className="text-lg">
               Privacy <span className="font-bold">100%</span> guaranteed
             </span>
