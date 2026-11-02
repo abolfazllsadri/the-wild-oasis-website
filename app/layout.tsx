@@ -1,7 +1,9 @@
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { ReservationProvider } from "@/components/ReservationContext";
 import { DM_Serif_Display, Inter } from "next/font/google";
 import type { Metadata, Viewport } from "next";
-import { ReservationProvider } from "@/components/ReservationContext";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,7 +30,9 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "The Wild Oasis",
     type: "website",
-    images: ["/bg.png"],
+    images: [
+      { url: "/og.jpg", width: 1200, height: 630, alt: "The Wild Oasis" },
+    ],
   },
 };
 
@@ -55,6 +59,38 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <ReservationProvider>{children}</ReservationProvider>
           </main>
         </div>
+
+        <Footer />
+
+        <Toaster
+          theme="dark"
+          position="bottom-left"
+          richColors
+          closeButton
+          style={
+            {
+              "--normal-bg": "#1B2631",
+              "--normal-border": "#2C3D4F",
+              "--normal-text": "#D4DEE7",
+
+              "--success-bg": "#10261b",
+              "--success-border": "#166534",
+              "--success-text": "#86efac",
+
+              "--error-bg": "#2b1316",
+              "--error-border": "#991b1b",
+              "--error-text": "#fca5a5",
+
+              "--warning-bg": "#2b2110",
+              "--warning-border": "#a16207",
+              "--warning-text": "#fde047",
+
+              "--info-bg": "#102233",
+              "--info-border": "#1d4e89",
+              "--info-text": "#93c5fd",
+            } as React.CSSProperties
+          }
+        />
       </body>
     </html>
   );

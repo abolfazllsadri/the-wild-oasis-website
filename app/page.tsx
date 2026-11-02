@@ -26,7 +26,7 @@ export default function Home() {
           Welcome to paradise.
         </h1>
 
-        <p className="mb-10 max-w-xl animate-fade-up text-balance text-base text-primary-100/90 [animation-delay:150ms] sm:text-lg">
+        <p className="mb-5 max-w-xl animate-fade-up text-balance text-base text-primary-100/90 [animation-delay:150ms] sm:text-lg">
           Luxury cabins surrounded by mountains and dark forests, your own
           little home away from home.
         </p>
