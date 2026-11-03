@@ -70,19 +70,17 @@
   }
 }
 
-/* DayPicker library styles */
-.rdp {
-  --rdp-cell-size: 32px !important;
+/* DayPicker v10 */
+.rdp-root {
   --rdp-accent-color: theme("colors.accent.600") !important;
-  --rdp-background-color: theme("colors.accent.700") !important;
-  --rdp-selected-color: theme("colors.accent.50") !important;
-  margin: 0 !important;
-}
+  --rdp-accent-background-color: theme("colors.accent.700") !important;
+  --rdp-range_start-color: theme("colors.accent.50") !important;
+  --rdp-range_end-color: theme("colors.accent.50") !important;
 
-.rdp-months {
-  flex-wrap: wrap;
-  justify-content: center;
-  row-gap: 1rem;
+  --rdp-day-width: 36px !important;
+  --rdp-day-height: 36px !important;
+  --rdp-day_button-width: 34px !important;
+  --rdp-day_button-height: 34px !important;
 }
 
 .rdp-dropdown option {
@@ -91,9 +89,18 @@
   font-weight: 500 !important;
 }
 
+.rdp-months {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 1rem;
+}
+
 @media (max-width: 640px) {
-  .rdp {
-    --rdp-cell-size: 40px !important;
+  .rdp-root {
+    --rdp-day-width: 40px !important;
+    --rdp-day-height: 40px !important;
+    --rdp-day_button-width: 38px !important;
+    --rdp-day_button-height: 38px !important;
   }
 }
 
