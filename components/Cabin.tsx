@@ -11,7 +11,7 @@ export default function Cabin({ cabin }: { cabin: Cabin }) {
       <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[22rem]">
         <Image
           fill
-          priority
+          preload
           src={image}
           sizes="(min-width: 1024px) 40vw, 100vw"
           className="select-none rounded-xl object-cover"

@@ -40,10 +40,6 @@ export const viewport: Viewport = {
   themeColor: "#141C24",
 };
 
-type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
-}>;
-
 const toasterStyles = {
   "--normal-bg": "#1B2631",
   "--normal-border": "#2C3D4F",
@@ -66,14 +62,18 @@ const toasterStyles = {
   "--info-text": "#93c5fd",
 } as React.CSSProperties;
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       dir="ltr"
       lang="en"
-      className={`${inter.variable} ${serif.variable} antialiased`}
+      className={`${inter.variable} ${serif.variable} scroll-smooth antialiased`}
+      data-scroll-behavior="smooth"
     >
-      <body className="relative flex min-h-dvh flex-col overflow-x-clip bg-primary-950 font-sans text-primary-100">
+      <body
+        suppressHydrationWarning
+        className="relative flex min-h-dvh flex-col overflow-x-clip bg-primary-950 font-sans text-primary-100"
+      >
         <Header />
 
         <div className="grid flex-1 px-4 py-8 sm:px-8 sm:py-12">

@@ -24,8 +24,6 @@ export default function MobileMenu({ image, guestName }: MobileMenuProps) {
 
   const isActive = (href: string) => pathname === href;
 
-  useEffect(() => setOpen(false), [pathname]);
-
   useEffect(() => {
     if (!open) return;
 
@@ -77,6 +75,7 @@ export default function MobileMenu({ image, guestName }: MobileMenuProps) {
                 <li key={href}>
                   <Link
                     href={href}
+                    onClick={() => setOpen(false)}
                     className={cn(
                       "flex items-center gap-3 rounded-xl px-4 py-3.5 text-lg font-medium transition-colors hover:bg-primary-800",
                       isActive(href) && "text-accent-300",

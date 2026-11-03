@@ -5,18 +5,20 @@ import { auth } from "@/lib/auth";
 import { format, isPast } from "date-fns";
 import EditReservationForm from "@/components/EditReservationForm";
 
-type PageProps = {
-  params: { bookingId: string };
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/account/reservations/edit/[bookingId]">): Promise<Metadata> {
+  const { bookingId } = await params;
 
-export function generateMetadata({ params }: PageProps): Metadata {
   return {
-    title: `Edit reservation #${params.bookingId}`,
+    title: `Edit reservation #${bookingId}`,
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { bookingId } = params;
+export default async function Page({
+  params,
+}: PageProps<"/account/reservations/edit/[bookingId]">) {
+  const { bookingId } = await params;
   const [session, booking] = await Promise.all([auth(), getBooking(bookingId)]);
 
   if (!booking || Number(booking.guestId) !== Number(session?.user?.guestId))

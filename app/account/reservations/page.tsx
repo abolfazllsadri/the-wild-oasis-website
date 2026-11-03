@@ -6,27 +6,23 @@ import { getBookings } from "@/lib/data-service";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-type PageProps = {
-  searchParams: {
-    payment?: string;
-    session_id?: string;
-  };
-};
-
 export const metadata: Metadata = { title: "Reservations" };
 
-// export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page({
+  searchParams,
+}: PageProps<"/account/reservations">) {
+  const { payment, session_id } = await searchParams;
+
   const session = await auth();
   const bookings = await getBookings(session?.user?.guestId as number);
 
   return (
     <div>
       <PaymentToast
-        status={searchParams.payment}
-        sessionId={searchParams.session_id}
+        status={payment?.toString()}
+        sessionId={session_id?.toString()}
       />
 
       <h2 className="mb-7 text-2xl font-semibold tracking-wider text-accent-400 sm:text-3xl">

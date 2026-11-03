@@ -8,7 +8,7 @@ export default function Home() {
       <Image
         src={bg}
         fill
-        priority
+        preload
         sizes="100vw"
         placeholder="blur"
         quality={80}

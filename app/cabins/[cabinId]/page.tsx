@@ -6,20 +6,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-type PageProps = {
-  params: { cabinId: string };
-};
-
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
-  const { cabinId } = params;
+}: PageProps<"/cabins/[cabinId]">): Promise<Metadata> {
+  const { cabinId } = await params;
   const cabin = await getCabin(cabinId);
 
-  if (!cabin?.name)
-    return {
-      title: "Cabin not found",
-    };
+  if (!cabin?.name) return { title: "Cabin not found" };
 
   return {
     title: `Cabin ${cabin.name}`,
@@ -38,8 +31,8 @@ export async function generateStaticParams() {
   return ids;
 }
 
-export default async function Page({ params }: PageProps) {
-  const { cabinId } = params;
+export default async function Page({ params }: PageProps<"/cabins/[cabinId]">) {
+  const { cabinId } = await params;
   const cabin = await getCabin(cabinId);
 
   if (!cabin) notFound();
