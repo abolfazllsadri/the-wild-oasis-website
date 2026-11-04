@@ -1,9 +1,9 @@
-// @ts-check
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  poweredByHeader: false,
+const nextConfig: NextConfig = {
+  // reactCompiler: true,
   images: {
+    qualities: [75, 80],
     remotePatterns: [
       {
         protocol: "https",

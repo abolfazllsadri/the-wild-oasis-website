@@ -5,20 +5,17 @@ import { CapacityFilter } from "@/lib/types";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-export const revalidate = 3600;
-
 export const metadata: Metadata = {
   title: "Cabins",
   description:
     "Browse our luxury cabins in the Italian Dolomites. Filter by capacity, compare prices and reserve your stay.",
 };
 
-type PageProps = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+export const revalidate = 3600;
 
-export default function Page({ searchParams }: PageProps) {
-  const filter = (searchParams?.capacity ?? "all") as CapacityFilter;
+export default async function Page({ searchParams }: PageProps<"/cabins">) {
+  const { capacity = "all" } = await searchParams;
+  const filter = capacity as CapacityFilter;
 
   return (
     <div>
@@ -51,7 +48,7 @@ export default function Page({ searchParams }: PageProps) {
 function Loading() {
   return (
     <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 xl:gap-14">
-      {Array.from({ length: 4 }, (_, i) => (
+      {Array.from({ length: 8 }, (_, i) => (
         <div
           key={i}
           className="h-52 animate-pulse rounded-lg border border-primary-800 bg-primary-900/50"

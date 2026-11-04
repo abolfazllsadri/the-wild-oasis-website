@@ -24,8 +24,6 @@ export default function MobileMenu({ image, guestName }: MobileMenuProps) {
 
   const isActive = (href: string) => pathname === href;
 
-  useEffect(() => setOpen(false), [pathname]);
-
   useEffect(() => {
     if (!open) return;
 
@@ -63,20 +61,21 @@ export default function MobileMenu({ image, guestName }: MobileMenuProps) {
         <>
           <div
             onClick={() => setOpen(false)}
-            className="fixed inset-x-0 bottom-0 top-16 z-30 animate-fade-in bg-primary-950/70 backdrop-blur-sm"
+            className="fixed inset-x-0 bottom-0 top-16 z-30 animate-fade-in bg-primary-950/70 backdrop-blur-xs"
             aria-hidden="true"
           />
 
           <nav
             id="mobile-menu"
             aria-label="Main"
-            className="fixed inset-x-3 top-[4.5rem] z-40 animate-fade-in rounded-2xl border border-primary-700/60 bg-primary-900/90 p-2 shadow-2xl shadow-black/60"
+            className="fixed inset-x-3 top-18 z-40 animate-fade-in rounded-2xl border border-primary-700/60 bg-primary-900/90 p-2 shadow-2xl shadow-black/60"
           >
             <ul>
               {links.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
+                    onClick={() => setOpen(false)}
                     className={cn(
                       "flex items-center gap-3 rounded-xl px-4 py-3.5 text-lg font-medium transition-colors hover:bg-primary-800",
                       isActive(href) && "text-accent-300",

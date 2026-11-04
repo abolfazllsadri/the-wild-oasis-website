@@ -5,14 +5,12 @@ import { auth } from "@/lib/auth";
 import { getSafePath } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-type PageProps = {
-  searchParams: { next?: string };
-};
-
 export const metadata = { title: "Sign in", robots: { index: false } };
 
-export default async function Page({ searchParams }: PageProps) {
-  const redirectTo = getSafePath(searchParams.next);
+export default async function Page({ searchParams }: PageProps<"/login">) {
+  const { next } = await searchParams;
+  const redirectTo = getSafePath(next?.toString());
+
   const session = await auth();
   if (session?.user) redirect(redirectTo);
 

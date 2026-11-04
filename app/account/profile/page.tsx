@@ -4,10 +4,6 @@ import { auth } from "@/lib/auth";
 import { getGuest } from "@/lib/data-service";
 import { cn } from "@/lib/utils";
 
-type PageProps = {
-  searchParams: { status?: string };
-};
-
 export const metadata = { title: "Update profile" };
 
 const MESSAGES: Record<string, { text: string; style: string }> = {
@@ -21,10 +17,15 @@ const MESSAGES: Record<string, { text: string; style: string }> = {
   },
 };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page({
+  searchParams,
+}: PageProps<"/account/profile">) {
+  const { status } = await searchParams;
+
   const session = await auth();
   const guest = await getGuest(session?.user?.email ?? "");
-  const message = MESSAGES[searchParams.status ?? ""];
+
+  const message = MESSAGES[status?.toString() ?? ""];
 
   return (
     <div>

@@ -67,7 +67,7 @@ export default function ConfirmDialog({
       onClick={(e) => e.target === dialogRef.current && onClose()}
       aria-labelledby="confirm-title"
       aria-describedby="confirm-desc"
-      className="confirm-dialog mx-auto mb-0 mt-auto w-full max-w-full overflow-hidden rounded-t-3xl border border-white/10 bg-primary-950 p-0 text-primary-100 shadow-2xl shadow-black/50 backdrop:bg-black/60 backdrop:backdrop-blur-sm sm:my-auto sm:max-w-md sm:rounded-3xl"
+      className="confirm-dialog mx-auto mb-0 mt-auto w-full max-w-full overflow-hidden rounded-t-3xl border border-white/10 bg-primary-950 p-0 text-primary-100 shadow-2xl shadow-black/50 backdrop:bg-black/60 backdrop:backdrop-blur-xs sm:my-auto sm:max-w-md sm:rounded-3xl"
     >
       <form action={action}>
         <div className="px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4 sm:p-8">
@@ -99,7 +99,7 @@ export default function ConfirmDialog({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl border border-white/10 px-6 py-3 font-medium text-primary-200 transition hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 disabled:opacity-50 sm:min-w-32"
+              className="rounded-xl border border-white/10 px-6 py-3 font-medium text-primary-200 transition hover:bg-white/5 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 disabled:opacity-50 sm:min-w-32"
             >
               {cancelLabel}
             </button>
@@ -128,7 +128,7 @@ function ConfirmButton({ children, pendingLabel, tone }: ConfirmButtonProps) {
     <button
       type="submit"
       disabled={pending}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold shadow-lg transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-70 sm:min-w-32 ${t.button}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold shadow-lg transition focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-70 sm:min-w-32 ${t.button}`}
     >
       {pending && (
         <span

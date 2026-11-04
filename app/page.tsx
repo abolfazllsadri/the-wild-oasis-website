@@ -8,7 +8,7 @@ export default function Home() {
       <Image
         src={bg}
         fill
-        priority
+        preload
         sizes="100vw"
         placeholder="blur"
         quality={80}
@@ -18,7 +18,7 @@ export default function Home() {
 
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-primary-950/70 via-transparent to-primary-950/60"
+        className="absolute inset-0 bg-linear-to-b from-primary-950/70 via-transparent to-primary-950/60"
       />
 
       <div className="relative z-10 flex flex-col items-center text-center">

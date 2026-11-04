@@ -8,13 +8,13 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
 });
 
 const serif = DM_Serif_Display({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-serif",
+  weight: "400",
+  variable: "--font-dm-serif",
 });
 
 export const metadata: Metadata = {
@@ -40,10 +40,6 @@ export const viewport: Viewport = {
   themeColor: "#141C24",
 };
 
-type RootLayoutProps = Readonly<{
-  children: React.ReactNode;
-}>;
-
 const toasterStyles = {
   "--normal-bg": "#1B2631",
   "--normal-border": "#2C3D4F",
@@ -66,18 +62,22 @@ const toasterStyles = {
   "--info-text": "#93c5fd",
 } as React.CSSProperties;
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       dir="ltr"
       lang="en"
-      className={`${inter.variable} ${serif.variable} antialiased`}
+      className={`${inter.variable} ${serif.variable} scrollbar-thin scrollbar-thumb-primary-800 scrollbar-track-primary-900 antialiased`}
+      data-scroll-behavior="smooth"
     >
-      <body className="relative flex min-h-dvh flex-col overflow-x-clip bg-primary-950 font-sans text-primary-100">
+      <body
+        suppressHydrationWarning
+        className="relative flex min-h-dvh flex-col overflow-x-clip bg-primary-950 font-sans text-primary-100"
+      >
         <Header />
 
         <div className="grid flex-1 px-4 py-8 sm:px-8 sm:py-12">
-          <main className="mx-auto w-full min-w-0 max-w-7xl">
+          <main className="mx-auto w-full max-w-7xl min-w-0">
             <ReservationProvider>{children}</ReservationProvider>
           </main>
         </div>

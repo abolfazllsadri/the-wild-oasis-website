@@ -10,8 +10,8 @@ import {
   isSameDay,
   isWithinInterval,
 } from "date-fns";
-import { type DateRange, DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
+import { DayPicker, type DateRange } from "@daypicker/react";
+import "@daypicker/react/style.css";
 
 function isAlreadyBooked(
   range: DateRange | undefined,
@@ -64,9 +64,8 @@ export default function DateSelector({
         onSelect={setRange}
         min={minBookingLength + 1}
         max={maxBookingLength}
-        fromMonth={new Date()}
-        fromDate={new Date()}
-        toYear={new Date().getFullYear() + 5}
+        startMonth={new Date()}
+        endMonth={new Date(new Date().getFullYear() + 5, 11)}
         captionLayout="dropdown"
         numberOfMonths={2}
         className="self-center pt-6 sm:pt-12"

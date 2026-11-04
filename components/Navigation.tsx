@@ -1,10 +1,7 @@
-import MobileMenu from "@/components/MobileMenu";
-import { auth } from "@/lib/auth";
 import Image from "next/image";
-import Link from "next/link";
-
-const linkClass =
-  "text-lg font-medium tracking-wide transition-colors hover:text-accent-200";
+import { auth } from "@/lib/auth";
+import NavItem from "@/components/NavItem";
+import MobileMenu from "@/components/MobileMenu";
 
 export default async function Navigation() {
   const session = await auth();
@@ -14,21 +11,17 @@ export default async function Navigation() {
     <>
       <ul className="hidden items-center gap-10 md:flex">
         <li>
-          <Link href="/cabins" className={linkClass}>
-            Cabins
-          </Link>
+          <NavItem href="/cabins">Cabins</NavItem>
         </li>
 
         <li>
-          <Link href="/about" className={linkClass}>
-            About
-          </Link>
+          <NavItem href="/about">About</NavItem>
         </li>
 
         <li>
-          <Link
+          <NavItem
             href="/account"
-            className={`${linkClass} flex items-center gap-3`}
+            className="flex items-center gap-3 text-lg font-medium tracking-wide transition-all duration-300 ease-in-out hover:text-accent-200"
           >
             {image && (
               <Image
@@ -41,7 +34,7 @@ export default async function Navigation() {
               />
             )}
             Guest area
-          </Link>
+          </NavItem>
         </li>
       </ul>
 
