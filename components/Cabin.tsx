@@ -8,7 +8,7 @@ export default function Cabin({ cabin }: { cabin: Cabin }) {
 
   return (
     <div className="mb-12 grid grid-cols-1 gap-6 rounded-xl border border-primary-800 p-4 sm:p-6 lg:mb-24 lg:grid-cols-[3fr_4fr] lg:gap-12 lg:p-8">
-      <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-[22rem]">
+      <div className="relative h-64 sm:h-80 lg:h-auto lg:min-h-88">
         <Image
           fill
           preload

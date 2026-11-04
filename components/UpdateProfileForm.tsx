@@ -61,7 +61,7 @@ export default function UpdateProfileForm({
               src={countryFlag}
               width={100}
               height={100}
-              className="h-5 w-8 rounded-sm object-cover"
+              className="h-5 w-8 rounded-xs object-cover"
               alt={`${nationality} flag`}
             />
           )}

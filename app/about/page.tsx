@@ -58,7 +58,7 @@ export default async function Page() {
         />
       </div>
 
-      <div className="relative aspect-[4/3] lg:col-span-2 lg:aspect-square">
+      <div className="relative aspect-4/3 lg:col-span-2 lg:aspect-square">
         <Image
           src={image2}
           fill

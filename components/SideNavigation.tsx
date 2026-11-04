@@ -42,7 +42,7 @@ export default function SideNavigation() {
       aria-label="Account"
       className="min-w-0 md:border-r md:border-primary-900 md:pr-3"
     >
-      <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 text-base [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:h-full md:flex-col md:overflow-visible md:px-0 md:py-0 md:text-lg [&::-webkit-scrollbar]:hidden">
+      <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 text-base scrollbar-none sm:-mx-8 sm:px-8 md:mx-0 md:h-full md:flex-col md:overflow-visible md:px-0 md:py-0 md:text-lg [&::-webkit-scrollbar]:hidden">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
 

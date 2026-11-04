@@ -8,13 +8,13 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
 });
 
 const serif = DM_Serif_Display({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-serif",
+  weight: "400",
+  variable: "--font-dm-serif",
 });
 
 export const metadata: Metadata = {
@@ -67,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       dir="ltr"
       lang="en"
-      className={`${inter.variable} ${serif.variable} scroll-smooth antialiased`}
+      className={`${inter.variable} ${serif.variable} scrollbar-thin scrollbar-thumb-primary-800 scrollbar-track-primary-900 antialiased`}
       data-scroll-behavior="smooth"
     >
       <body
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
 
         <div className="grid flex-1 px-4 py-8 sm:px-8 sm:py-12">
-          <main className="mx-auto w-full min-w-0 max-w-7xl">
+          <main className="mx-auto w-full max-w-7xl min-w-0">
             <ReservationProvider>{children}</ReservationProvider>
           </main>
         </div>
