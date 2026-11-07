@@ -30,7 +30,8 @@ const authConfig: NextAuthConfig = {
           });
 
         return true;
-      } catch {
+      } catch (error: unknown) {
+        console.error("Sign-in failed:", error);
         return false;
       }
     },
@@ -47,7 +48,7 @@ const authConfig: NextAuthConfig = {
       return session;
     },
   },
-  pages: { signIn: "/login" },
+  pages: { signIn: "/login", error: "/login/error" },
 };
 
 export const {
