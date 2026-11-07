@@ -1,7 +1,7 @@
 import CabinList from "@/components/CabinList";
 import Filter from "@/components/Filter";
 import ReservationReminder from "@/components/ReservationReminder";
-import { CapacityFilter } from "@/lib/types";
+import { cabinSortOptions, CapacityFilter } from "@/lib/types";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -14,8 +14,11 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function Page({ searchParams }: PageProps<"/cabins">) {
-  const { capacity = "all" } = await searchParams;
+  const { sort, capacity = "all" } = await searchParams;
+
   const filter = capacity as CapacityFilter;
+  const sortValue =
+    cabinSortOptions.find((option) => option.value === sort)?.value ?? "name";
 
   return (
     <div>
@@ -32,12 +35,12 @@ export default async function Page({ searchParams }: PageProps<"/cabins">) {
         Welcome to paradise.
       </p>
 
-      <div className="mb-8 flex sm:justify-end">
+      <div className="mb-8">
         <Filter />
       </div>
 
-      <Suspense fallback={<Loading />} key={filter}>
-        <CabinList filter={filter} />
+      <Suspense fallback={<Loading />} key={`${filter}-${sortValue}`}>
+        <CabinList filter={filter} sort={sortValue} />
       </Suspense>
 
       <ReservationReminder />

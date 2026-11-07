@@ -77,4 +77,14 @@ export type Settings = {
 
 export type CapacityFilter = "all" | "small" | "medium" | "large";
 
+export const cabinSortOptions = [
+  { value: "name", label: "Name" },
+  { value: "price-asc", label: "Price: low to high" },
+  { value: "price-desc", label: "Price: high to low" },
+  { value: "capacity-asc", label: "Capacity: small to large" },
+  { value: "capacity-desc", label: "Capacity: large to small" },
+] as const;
+
+export type CabinSort = (typeof cabinSortOptions)[number]["value"];
+
 export type ActionResult = { error?: string };

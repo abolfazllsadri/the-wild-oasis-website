@@ -1,37 +1,55 @@
 import CabinCard from "@/components/CabinCard";
 import { getCabins } from "@/lib/data-service";
-import type { Cabin, CapacityFilter } from "@/lib/types";
+import type { Cabin, CabinSort, CapacityFilter } from "@/lib/types";
 
 type CabinListProps = {
+  sort: CabinSort;
   filter: CapacityFilter;
 };
 
-export default async function CabinList({ filter }: CabinListProps) {
-  const cabins = await getCabins();
+const price = (cabin: Cabin) => cabin.regularPrice - cabin.discount;
 
-  let filteredCabins!: Cabin[];
-
-  if (filter === "all") filteredCabins = cabins;
-
+function filterCabins(cabins: Cabin[], filter: CapacityFilter) {
   if (filter === "small")
-    filteredCabins = cabins.filter((cabin) => cabin.maxCapacity <= 3);
+    return cabins.filter((cabin) => cabin.maxCapacity <= 3);
 
   if (filter === "medium")
-    filteredCabins = cabins.filter(
+    return cabins.filter(
       (cabin) => cabin.maxCapacity >= 4 && cabin.maxCapacity <= 7,
     );
 
   if (filter === "large")
-    filteredCabins = cabins.filter((cabin) => cabin.maxCapacity >= 8);
+    return cabins.filter((cabin) => cabin.maxCapacity >= 8);
 
-  if (!filteredCabins.length)
+  return cabins;
+}
+
+function sortCabins(cabins: Cabin[], sort: CabinSort) {
+  const sorted = [...cabins];
+
+  if (sort === "price-asc") sorted.sort((a, b) => price(a) - price(b));
+  if (sort === "price-desc") sorted.sort((a, b) => price(b) - price(a));
+  if (sort === "capacity-asc")
+    sorted.sort((a, b) => a.maxCapacity - b.maxCapacity);
+  if (sort === "capacity-desc")
+    sorted.sort((a, b) => b.maxCapacity - a.maxCapacity);
+
+  return sorted;
+}
+
+export default async function CabinList({ sort, filter }: CabinListProps) {
+  const cabins = await getCabins();
+
+  const displayCabins = sortCabins(filterCabins(cabins, filter), sort);
+
+  if (!displayCabins.length)
     return (
       <p className="text-lg text-primary-300">No cabins match this filter.</p>
     );
 
   return (
     <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 xl:gap-14">
-      {filteredCabins.map((cabin) => (
+      {displayCabins.map((cabin) => (
         <CabinCard cabin={cabin} key={cabin.id} />
       ))}
     </div>
