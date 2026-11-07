@@ -8,8 +8,11 @@ import { redirect } from "next/navigation";
 export const metadata = { title: "Sign in", robots: { index: false } };
 
 export default async function Page({ searchParams }: PageProps<"/login">) {
-  const { next } = await searchParams;
+  const { next, error } = await searchParams;
   const redirectTo = getSafePath(next?.toString());
+
+  if (error)
+    redirect(`/login/error?error=${encodeURIComponent(error?.toString())}`);
 
   const session = await auth();
   if (session?.user) redirect(redirectTo);
@@ -21,11 +24,11 @@ export default async function Page({ searchParams }: PageProps<"/login">) {
           <Logo />
         </div>
 
-        <h1 className="text-balance text-2xl font-bold text-primary-50 sm:text-3xl">
+        <h1 className="text-2xl font-bold text-balance text-primary-50 sm:text-3xl">
           Sign in to access your guest area
         </h1>
 
-        <p className="mb-8 mt-3 text-primary-300">
+        <p className="mt-3 mb-8 text-primary-300">
           Manage your reservations and update your profile.
         </p>
 
