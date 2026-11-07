@@ -12,14 +12,15 @@ export default function CabinCard({ cabin }: { cabin: Cabin }) {
         <Image
           fill
           src={image}
+          height={0}
           alt={`Cabin ${name}`}
-          className="border-b border-primary-800 object-cover sm:border-b-0 sm:border-r"
+          className="border-b border-primary-800 object-cover sm:border-r sm:border-b-0"
           sizes="(max-width: 640px) 100vw, 45vw"
         />
       </div>
 
       <div className="sm:flex-1">
-        <div className="bg-primary-950 px-5 pb-4 pt-5 sm:px-7">
+        <div className="bg-primary-950 px-5 pt-5 pb-4 sm:px-7">
           <h3 className="mb-3 text-2xl font-semibold text-accent-500">
             Cabin {name}
           </h3>
